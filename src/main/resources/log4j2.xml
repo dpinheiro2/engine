@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN">
+    # status Logs internos do log4j2
+     <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow,
+            INFO=green, DEBUG=blue} %p %m%n"/>
+        </Console>
+
+        <File name="fout" fileName="logs/AgentUI.log" immediateFlush="false" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow,
+            INFO=green, DEBUG=blue} %p %m%n"/>
+        </File>
+
+
+        <RollingFile name="roll-by-size"
+                     fileName="logs/agent.log" filePattern="logs/agent.%i.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow,
+                    INFO=green, DEBUG=blue} %p %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy
+                        size="20 MB"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="br.ufsm.cbrgroup" level="DEBUG" additivity="false">
+            <AppenderRef ref="fout"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <AsyncRoot level="INFO">
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="fout"/>-->
+        </AsyncRoot>
+
+    </Loggers>
+</Configuration>
