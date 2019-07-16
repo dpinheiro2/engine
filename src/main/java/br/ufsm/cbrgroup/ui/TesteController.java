@@ -1,12 +1,21 @@
 package br.ufsm.cbrgroup.ui;
 
 import br.ufsm.cbrgroup.Agent;
+import br.ufsm.cbrgroup.AgentEx;
+import br.ufsm.cbrgroup.cbr.learning.LearningDefault;
 import br.ufsm.cbrgroup.cbr.retrieve.RetrieveDefault;
+import br.ufsm.cbrgroup.cbr.retrieve.RetrieveDefaultEx;
+import br.ufsm.cbrgroup.cbr.reuse.ReuseActiveLearning;
+import br.ufsm.cbrgroup.cbr.reuse.ReuseActiveLearningEx;
 import br.ufsm.cbrgroup.cbr.reuse.ReuseMostSimilar;
+import br.ufsm.cbrgroup.cbr.reuse.ReuseMostSimilarEx;
+import br.ufsm.cbrgroup.cbr.similarity.SimilarityActiveLearning;
 import br.ufsm.cbrgroup.cbr.similarity.SimilarityUnweighted;
+import br.ufsm.cbrgroup.cbr.similarity.SimilarityUnweightedEx;
 import br.ufsm.cbrgroup.enums.TypeCaseBase;
 import br.ufsm.cbrgroup.game.GameState;
 import br.ufsm.cbrgroup.websocket.LocalEndpoint;
+import br.ufsm.cbrgroup.websocket.LocalEndpointEx;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -30,8 +39,8 @@ import java.util.Random;
 public class TesteController {
 
     private String SERVER = "ws://localhost:8080/truco/cbr/";
-    private Agent agent;
-    private LocalEndpoint endpoint;
+    private AgentEx agent;
+    private LocalEndpointEx endpoint;
 
     @FXML
     private Button btnJogar;
@@ -40,15 +49,18 @@ public class TesteController {
     @FXML
     public void initialize() {
 
-        agent = new Agent();
-        endpoint = new LocalEndpoint();
+        agent = new AgentEx();
+        endpoint = new LocalEndpointEx();
         agent.setGameState(new GameState());
+
         agent.setTypeCaseBaseReuse(TypeCaseBase.BASELINE);
         agent.setTypeCaseBaseLearning(TypeCaseBase.NONE);
-        agent.setRetrieveStrategy(new RetrieveDefault());
-        agent.setSimilarityStrategy(new SimilarityUnweighted());
-        agent.setReuseStrategy(new ReuseMostSimilar());
-        agent.setLearningStrategy(null);
+
+        agent.setRetrieveStrategy(new RetrieveDefaultEx());
+        agent.setSimilarityStrategy(new SimilarityUnweightedEx());
+        //agent.setReuseStrategy(new ReuseMostSimilarEx());
+        agent.setReuseStrategy(new ReuseActiveLearningEx());
+
         agent.initializingCaseBase();
         endpoint.setAgent(agent);
 
@@ -75,6 +87,6 @@ public class TesteController {
         Random r     = new Random();
         int player = (r.nextInt((99) + 1));
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.connectToServer(endpoint, null, new URI(SERVER+"Agente"+player));
+        container.connectToServer(endpoint, null, new URI(SERVER+"AgenteNew"+player));
     }
 }

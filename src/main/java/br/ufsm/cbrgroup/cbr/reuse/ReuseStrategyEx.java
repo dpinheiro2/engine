@@ -1,14 +1,9 @@
 package br.ufsm.cbrgroup.cbr.reuse;
 
-import br.ufsm.cbrgroup.Agent;
-import br.ufsm.cbrgroup.cbr.learning.LearningStrategy;
-import br.ufsm.cbrgroup.description.GenericDescription;
-import br.ufsm.cbrgroup.description.RetainActiveDescription;
-import br.ufsm.cbrgroup.description.RetainAllDescription;
-import br.ufsm.cbrgroup.description.TrucoDescription;
 import br.ufsm.cbrgroup.game.GameState;
 import br.ufsm.cbrgroup.model.Card;
 import br.ufsm.cbrgroup.websocket.Message;
+import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCaseBase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
@@ -24,20 +19,17 @@ import java.util.Collection;
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 21/05/2019.
+ * Criado em 01/07/2019.
  */
 
 
-public interface ReuseStrategy {
+public interface ReuseStrategyEx {
 
-    default Collection<RetrievalResult> getMostSimilarCases(CBRCaseBase caseBase, GenericDescription gameStateQuery, NNConfig simConfig, int k) {
+    default Collection<RetrievalResult> getMostSimilarCases(CBRCaseBase caseBase, CBRQuery query, NNConfig simConfig, int k) {
 
         Collection<RetrievalResult> results = null;
-        CBRQuery query = new CBRQuery();
-        query.setDescription((CaseComponent) gameStateQuery);
         results = NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, simConfig);
         results = SelectCases.selectTopKRR(results, k);
-        SelectCases.selectTopK(results, k);
 
         return results;
     }
@@ -101,11 +93,9 @@ public interface ReuseStrategy {
 
     }
 
-    public Message decisionMakingEnvido(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn);
-    public Message decisionMakingFlor(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn);
-    public Message decisionMakingTruco(CBRCaseBase caseBase, GameState gameState, GenericDescription query,
-                                       NNConfig simConfig, boolean isTurn);
-    public Message decisionMakingPlayCard(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn);
-    public Message decisionMakingShowPoints(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn);
+    public Message decisionMakingEnvido(CBRCaseBase caseBase, GameState gameState, CBRQuery query, NNConfig simConfig, boolean isTurn);
+    public Message decisionMakingFlor(CBRCaseBase caseBase, GameState gameState, CBRQuery query, NNConfig simConfig, boolean isTurn);
+    public Message decisionMakingTruco(CBRCaseBase caseBase, GameState gameState, CBRQuery query, NNConfig simConfig, boolean isTurn);
+    public Message decisionMakingPlayCard(CBRCaseBase caseBase, GameState gameState, CBRQuery query, NNConfig simConfig, boolean isTurn);
 
 }

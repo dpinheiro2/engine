@@ -1,7 +1,8 @@
 package br.ufsm.cbrgroup.websocket;
 
-
 import br.ufsm.cbrgroup.Agent;
+import br.ufsm.cbrgroup.AgentEx;
+import br.ufsm.cbrgroup.description.Carta;
 import br.ufsm.cbrgroup.enums.*;
 import br.ufsm.cbrgroup.game.Action;
 import br.ufsm.cbrgroup.model.Card;
@@ -9,6 +10,7 @@ import com.google.gson.Gson;
 import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -22,28 +24,27 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
 
-
 /**
  * Universidade Federal de Santa Maria
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 16/10/2018.
+ * Criado em 01/07/2019.
  */
 
 
-public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<String>{
+public class LocalEndpointEx extends Endpoint implements MessageHandler.Whole<String>{
 
     private static Logger logger = LogManager.getLogger(LocalEndpoint.class);
 
     static Session session;
-    public Agent agent;
+    public AgentEx agent;
 
-    public Agent getAgent() {
+    public AgentEx getAgent() {
         return agent;
     }
 
-    public void setAgent(Agent agent) {
+    public void setAgent(AgentEx agent) {
         this.agent = agent;
     }
 
@@ -92,8 +93,8 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         agent.getGameState().setToken(messageJson.getBoolean("isToken"));
                         agent.getGameState().setHasFlor(messageJson.getBoolean("hasFlor"));
                         setReceiptCards(messageJson);
-                        agent.createNewLearnedCase();
-                        agent.setCaseInitialInformation();
+                        //agent.createNewLearnedCase();
+                        //agent.setCaseInitialInformation();
                         agent.getGameState().setCurrentRound(1);
                         if (agent.getGameState().isTurno()) {
                             action = agent.receivedTurn();
@@ -126,7 +127,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
 
 
-                                    agent.getLearningDescription().setQuemFlor(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemFlor(messageJson.getBoolean("isPediu") ? 1:2);
 
                                 break;
                             case 2:
@@ -134,7 +135,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().getFlorHistory().add(new Action(StateDecisionToken.FLOR_FLOR.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
 
-                                    agent.getLearningDescription().setQuemFlorFlor(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemFlorFlor(messageJson.getBoolean("isPediu") ? 1:2);
 
                                 break;
                             case 3:
@@ -142,7 +143,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().getFlorHistory().add(new Action(StateDecisionToken.CONTRA_FLOR.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
 
-                                    agent.getLearningDescription().setQuemContraFlor(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemContraFlor(messageJson.getBoolean("isPediu") ? 1:2);
 
                                 break;
                             case 4:
@@ -150,7 +151,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().getFlorHistory().add(new Action(StateDecisionToken.CONTRA_FLOR_FALTA.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
 
-                                    agent.getLearningDescription().setQuemContraFlorFalta(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemContraFlorFalta(messageJson.getBoolean("isPediu") ? 1:2);
 
                                 break;
                             case 5:
@@ -158,7 +159,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().getFlorHistory().add(new Action(StateDecisionToken.CONTRA_FLOR_RESTO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
 
-                                    agent.getLearningDescription().setQuemContraFlorResto(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemContraFlorResto(messageJson.getBoolean("isPediu") ? 1:2);
                                 break;
                         }
                         if (agent.getGameState().isToken()) {
@@ -189,25 +190,25 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.ENVIDO);
                                 agent.getGameState().getEnvidoHistory().add(new Action(StateDecisionToken.ENVIDO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemPediuEnvido(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemPediuEnvido(messageJson.getBoolean("isPediu") ? 1:2);
                                 break;
                             case 2:
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.ENVIDO_ENVIDO);
                                 agent.getGameState().getEnvidoHistory().add(new Action(StateDecisionToken.ENVIDO_ENVIDO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemEnvidoEnvido(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemEnvidoEnvido(messageJson.getBoolean("isPediu") ? 1:2);
                                 break;
                             case 3:
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.REAL_ENVIDO);
                                 agent.getGameState().getEnvidoHistory().add(new Action(StateDecisionToken.REAL_ENVIDO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemPediuRealEnvido(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemPediuRealEnvido(messageJson.getBoolean("isPediu") ? 1:2);
                                 break;
                             case 4:
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.FALTA_ENVIDO);
                                 agent.getGameState().getEnvidoHistory().add(new Action(StateDecisionToken.FALTA_ENVIDO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemPediuFaltaEnvido(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuemPediuFaltaEnvido(messageJson.getBoolean("isPediu") ? 1:2);
                                 break;
                         }
                         if (agent.getGameState().isToken()) {
@@ -227,22 +228,22 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.TRUCO);
                                 agent.getGameState().getTrucoHistory().add(new Action(StateDecisionToken.TRUCO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemTruco(messageJson.getBoolean("isPediu") ? 1:2);
-                                    agent.getLearningDescription().setQuandoTruco(messageJson.getInt("round"));
+                                //agent.getLearningDescription().setQuemTruco(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuandoTruco(messageJson.getInt("round"));
                                 break;
                             case 2:
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.RETRUCO);
                                 agent.getGameState().getTrucoHistory().add(new Action(StateDecisionToken.RETRUCO.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent", messageJson.getInt("round")));
-                                    agent.getLearningDescription().setQuemRetruco(messageJson.getBoolean("isPediu") ? 1:2);
-                                    agent.getLearningDescription().setQuandoRetruco(messageJson.getInt("round"));
+                                //agent.getLearningDescription().setQuemRetruco(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuandoRetruco(messageJson.getInt("round"));
                                 break;
                             case 3:
                                 agent.getGameState().setStateDecisionToken(StateDecisionToken.VALE4);
                                 agent.getGameState().getTrucoHistory().add(new Action(StateDecisionToken.VALE4.name(),
                                         messageJson.getBoolean("isPediu") ? "Agent" : "Opponent"));
-                                    agent.getLearningDescription().setQuemValeQuatro(messageJson.getBoolean("isPediu") ? 1:2);
-                                    agent.getLearningDescription().setQuandoValeQuatro(messageJson.getInt("round"));
+                                //agent.getLearningDescription().setQuemValeQuatro(messageJson.getBoolean("isPediu") ? 1:2);
+                                //agent.getLearningDescription().setQuandoValeQuatro(messageJson.getInt("round"));
                                 break;
                         }
 
@@ -259,6 +260,13 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         String suit = card.getString("suit");
                         int cbrCode = card.getInt("cbrCode");
                         Card carta = new Card(getFaceByString(face), getSuitByString(suit), cbrCode);
+
+                        Carta cd = new Carta();
+                        cd.setSuit(carta.getSuit().name());
+                        cd.setFace(carta.getFace().name());
+                        cd.setCbrCode(carta.getCbrCode());
+                        setCartaJogada(agent.getGameState().getDealtCards().size(), cd, messageJson.getBoolean("isPlayed") ? 1 : 2);
+
                         agent.getGameState().addCardTable(carta);
                         agent.getGameState().processaRound(carta, messageJson.getBoolean("isPlayed") ? 1 : 2);
                         if (messageJson.getBoolean("isPlayed")) {
@@ -268,8 +276,9 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                             agent.getGameState().getOpponentPlayedCards().add(carta);
                             logger.debug("OpponentCards: " + agent.getGameState().getOpponentPlayedCards().toString());
                         }
-                            agent.setPlayedCards(carta, messageJson.getBoolean("isPlayed") ? 1 : 2);
+                        //agent.setPlayedCards(carta, messageJson.getBoolean("isPlayed") ? 1 : 2);
                         setStateTurn(agent.getGameState().getDealtCards().size());
+
 
                         logger.debug("Token: " + agent.getGameState().isToken() );
                         logger.debug("HandFinish: " + agent.getGameState().isHandFinish() );
@@ -287,6 +296,9 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                     case "FACE_DOWN_CARD":
                         logger.debug("FACE_DOWN_CARD");
                         Card faceDowncarta = null;
+
+                        setCartaJogada(agent.getGameState().getDealtCards().size(), null, messageJson.getBoolean("isPlayed") ? 1 : 2);
+
                         agent.getGameState().addCardTable(faceDowncarta);
                         agent.getGameState().processaRound(null, messageJson.getBoolean("isPlayed") ? 1 : 2);
                         agent.getGameState().setOpponentCartaVirada(agent.getGameState().getCurrentRound());
@@ -297,7 +309,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                             //TODO: add nas cartas jogadas do agente a certa jogada virada
                         }
 
-                            agent.setPlayedCards(faceDowncarta, messageJson.getBoolean("isPlayed") ? 1 : 2);
+                        //agent.setPlayedCards(faceDowncarta, messageJson.getBoolean("isPlayed") ? 1 : 2);
 
                         setStateTurn(agent.getGameState().getDealtCards().size());
 
@@ -316,35 +328,35 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         if (messageJson.getInt("round") == 1 ) {
                             agent.getGameState().setWinnerRound1(messageJson.getBoolean("isWinner"));
                             agent.getGameState().setEmpateRound1(messageJson.getBoolean("isEmpate"));
-                                agent.setGanhadorRodada(1);
+                            //agent.setGanhadorRodada(1);
                         } else if (messageJson.getInt("round") == 2 ) {
                             agent.getGameState().setWinnerRound2(messageJson.getBoolean("isWinner"));
                             agent.getGameState().setEmpateRound2(messageJson.getBoolean("isEmpate"));
-                                agent.setGanhadorRodada(2);
+                            //agent.setGanhadorRodada(2);
                         } else if (messageJson.getInt("round") == 3 ) {
                             agent.getGameState().setWinnerRound2(messageJson.getBoolean("isWinner"));
                             agent.getGameState().setEmpateRound2(messageJson.getBoolean("isEmpate"));
-                                agent.setGanhadorRodada(3);
+                            //agent.setGanhadorRodada(3);
                         }
                         break;
                     case "IR_BARALHO":
                         logger.debug("IR_BARALHO");
-                            agent.getLearningDescription().setQuemBaralho(2);
-                            agent.getLearningDescription().setQuandoBaralho(agent.getGameState().getCurrentRound());
+                        //agent.getLearningDescription().setQuemBaralho(2);
+                        //agent.getLearningDescription().setQuandoBaralho(agent.getGameState().getCurrentRound());
                         break;
                     case "RESULT_ENVIDO":
                         logger.debug("RESULT_ENVIDO");
                         agent.getGameState().getEnvidoHistory().add(new Action(messageJson.getString("result"),
                                 ""));
-                            if (messageJson.getInt("pontosOponente") == -2) {
-                                agent.getLearningDescription().setQuemEscondeuPontosEnvido(2);
-                                agent.getLearningDescription().setHasDeception(1);
-                                agent.getLearningDescription().setHumanoMentiuEnvido(4);
-                            } else if (messageJson.getInt("pontosOponente") == -1) {
-                                agent.getLearningDescription().setQuemEscondeuPontosEnvido(1);
-                            } else {
-                                agent.getLearningDescription().setPontosEnvidoHumano(messageJson.getInt("pontosOponente"));
-                            }
+                        if (messageJson.getInt("pontosOponente") == -2) {
+                            //agent.getLearningDescription().setQuemEscondeuPontosEnvido(2);
+                            //agent.getLearningDescription().setHasDeception(1);
+                            //agent.getLearningDescription().setHumanoMentiuEnvido(4);
+                        } else if (messageJson.getInt("pontosOponente") == -1) {
+                            //agent.getLearningDescription().setQuemEscondeuPontosEnvido(1);
+                        } else {
+                            //agent.getLearningDescription().setPontosEnvidoHumano(messageJson.getInt("pontosOponente"));
+                        }
 
                         if (agent.getGameState().isToken()) {
                             action = agent.receivedTurn();
@@ -353,7 +365,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         break;
                     case "RESULT_ENVIDO_DECLINED":
                         logger.debug("RESULT_ENVIDO_DECLINED");
-                            agent.getLearningDescription().setQuemNegouEnvido(messageJson.getBoolean("isDeclined") ? 1 : 2);
+                        //agent.getLearningDescription().setQuemNegouEnvido(messageJson.getBoolean("isDeclined") ? 1 : 2);
                         agent.getGameState().getEnvidoHistory().add(new Action(messageJson.getString("result"),
                                 ""));
                         if (agent.getGameState().isToken()) {
@@ -374,7 +386,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         agent.getGameState().getFlorHistory().add(new Action(messageJson.getString("result"),
                                 ""));
                         logger.debug("RESULT_FLOR_DECLINED");
-                            agent.getLearningDescription().setQuemNegouFlor(messageJson.getBoolean("isDeclined") ? 1 : 2);
+                        //agent.getLearningDescription().setQuemNegouFlor(messageJson.getBoolean("isDeclined") ? 1 : 2);
                         if (agent.getGameState().isToken()) {
                             action = agent.receivedTurn();
                             if (action != null) executeAction(action);
@@ -382,35 +394,39 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         break;
                     case "RESULT_TRUCO_DECLINED":
                         logger.debug("RESULT_TRUCO_DECLINED");
-                            agent.getLearningDescription().setQuemNegouTruco(messageJson.getBoolean("isDeclined") ? 1 : 2);
+                        //agent.getLearningDescription().setQuemNegouTruco(messageJson.getBoolean("isDeclined") ? 1 : 2);
                         break;
                     case "UPDATE_PLACAR":
                         logger.debug("UPDATE_PLACAR");
                         agent.getGameState().setAgentPoints(messageJson.getInt("myPoints"));
                         agent.getGameState().setOpponentPoints(messageJson.getInt("otherPoints"));
-                            if (messageJson.getInt("origem") == 1) {
-                                agent.getLearningDescription().setTentosEnvido(messageJson.getInt("pontos"));
-                                agent.getLearningDescription().setQuemGanhouEnvido(messageJson.getBoolean("isWinner") ? 1 : 2);
-                            } else if (messageJson.getInt("origem") == 2) {
-                                agent.getLearningDescription().setTentosTruco(messageJson.getInt("pontos"));
-                                agent.getLearningDescription().setQuemGanhouTruco(messageJson.getBoolean("isWinner") ? 1 : 2);
-                            } else {
-                                agent.getLearningDescription().setTentosFlor(messageJson.getInt("pontos"));
-                                agent.getLearningDescription().setQuemGanhouFlor(messageJson.getBoolean("isWinner") ? 1 : 2);
-                            }
+                        if (messageJson.getInt("origem") == 1) {
+                            agent.getGameState().setTentosEnvido(new Integer(messageJson.getBoolean("isWinner") ?
+                                    messageJson.getInt("pontos") : messageJson.getInt("pontos")*-1));
+                            //agent.getLearningDescription().setTentosEnvido(messageJson.getInt("pontos"));
+                            //agent.getLearningDescription().setQuemGanhouEnvido(messageJson.getBoolean("isWinner") ? 1 : 2);
+                        } else if (messageJson.getInt("origem") == 2) {
+                            //agent.getLearningDescription().setTentosTruco(messageJson.getInt("pontos"));
+                            //agent.getLearningDescription().setQuemGanhouTruco(messageJson.getBoolean("isWinner") ? 1 : 2);
+                        } else {
+                            agent.getGameState().setTentosFlor(new Integer(messageJson.getBoolean("isWinner") ?
+                                    messageJson.getInt("pontos") : messageJson.getInt("pontos")*-1));
+                            //agent.getLearningDescription().setTentosFlor(messageJson.getInt("pontos"));
+                            //agent.getLearningDescription().setQuemGanhouFlor(messageJson.getBoolean("isWinner") ? 1 : 2);
+                        }
 
                         break;
                     case "FINISH_HAND":
                         logger.debug("FINISH_HAND");
-                        agent.detectDeceptionOpponent();
-                        if (agent.getTypeCaseBaseLearning() != TypeCaseBase.NONE && agent.getLearningStrategy() != null) {
-                            agent.getLearningDescription().setTentosPosterioresRobo(agent.getGameState().getAgentPoints());
-                            agent.getLearningDescription().setTentosPosterioresHumano(agent.getGameState().getOpponentPoints());
-                            if (agent.getLearningDescription().getPontosEnvidoHumano() == null) {
-                                agent.setPontosEnvidoByPlayedCards();
-                            }
-                            agent.learningCriteria();
-                        }
+                        //agent.detectDeceptionOpponent();
+                        //if (agent.getTypeCaseBaseLearning() != TypeCaseBase.NONE && agent.getLearningStrategy() != null) {
+                            //agent.getLearningDescription().setTentosPosterioresRobo(agent.getGameState().getAgentPoints());
+                            //agent.getLearningDescription().setTentosPosterioresHumano(agent.getGameState().getOpponentPoints());
+                            //if (agent.getLearningDescription().getPontosEnvidoHumano() == null) {
+                                //agent.setPontosEnvidoByPlayedCards();
+                            //}
+                            //agent.learningCriteria();
+                        //}
                         esperar(5);
                         agent.getGameState().initHand();
                         agent.getGameState().setIdPartida(messageJson.getString("idPartida"));
@@ -420,8 +436,8 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                         agent.getGameState().setToken(messageJson.getBoolean("isToken"));
                         agent.getGameState().setHasFlor(messageJson.getBoolean("hasFlor"));
                         setReceiptCards(messageJson);
-                        agent.createNewLearnedCase();
-                        agent.setCaseInitialInformation();
+                        //agent.createNewLearnedCase();
+                        //agent.setCaseInitialInformation();
                         agent.getGameState().setCurrentRound(1);
                         if (agent.getGameState().isToken()) {
                             action = agent.receivedTurn();
@@ -443,7 +459,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                     case "ENVIDO_POINTS":
                         logger.debug("ENVIDO_POINTS");
                         agent.getGameState().setOpponentEnvidoPoints(messageJson.getInt("opponentEnvidoPoints"));
-                            agent.getLearningDescription().setPontosEnvidoHumano(messageJson.getInt("opponentEnvidoPoints"));
+                        //agent.getLearningDescription().setPontosEnvidoHumano(messageJson.getInt("opponentEnvidoPoints"));
                         if (agent.getGameState().getOpponentEnvidoPoints() < agent.getGameState().getEnvidoPoints()) {
                             showPoints(true);
                         } else {
@@ -475,7 +491,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 sendMessage(jsonMessage.toString());
                 break;
             case "ENVIDO":
-                agent.verifyDeceptionEnvidoAtCallPoints();
+                //agent.verifyDeceptionEnvidoAtCallPoints();
                 jsonMessage = provider.createObjectBuilder()
                         .add("action", message.getAction())
                         .add("tipo", message.getInfo())
@@ -483,7 +499,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 sendMessage(jsonMessage.toString());
                 break;
             case "TRUCO":
-                agent.verifyDeceptionAtCallTruco();
+                //agent.verifyDeceptionAtCallTruco();
                 jsonMessage = provider.createObjectBuilder()
                         .add("action", message.getAction())
                         .add("tipo", message.getInfo())
@@ -512,7 +528,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 break;
             case "PLAY_CARD":
                 gson = new Gson();
-                agent.verifyDeceptionAtPlayCard(message.getCard());
+                //agent.verifyDeceptionAtPlayCard(message.getCard());
                 jsonMessage = provider.createObjectBuilder()
                         .add("action", message.getAction())
                         .add("card", gson.toJson(message.getCard()))
@@ -521,7 +537,7 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 break;
             case "FACE_DOWN_CARD":
                 gson = new Gson();
-                agent.verifyDeceptionAtPlayCard(null);
+                //agent.verifyDeceptionAtPlayCard(null);
                 agent.getGameState().getAgentPlayedCards().add(message.getCard());
                 jsonMessage = provider.createObjectBuilder()
                         .add("action", message.getAction())
@@ -530,9 +546,9 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 sendMessage(jsonMessage.toString());
                 break;
             case "SHOW_POINTS":
-                if (!message.getInfo().equals("1")) {
+               /* if (!message.getInfo().equals("1")) {
                     agent.verifyDeceptionEnvidoAtHidePoints();
-                }
+                }*/
                 jsonMessage = provider.createObjectBuilder()
                         .add("action", message.getAction())
                         .add("isShowPoints", message.getInfo().equals("1"))
@@ -660,6 +676,35 @@ public class LocalEndpoint extends Endpoint implements MessageHandler.Whole<Stri
                 break;
             case 5:
                 agent.getGameState().setStateDecisionTurn(StateDecisionTurn.PLAY_CARD_6);
+                break;
+        }
+    }
+
+    private void setCartaJogada(int size, Carta carta, int who) {
+        switch (size) {
+            case 0:
+                agent.getGameState().setCarta1(carta);
+                agent.getGameState().setWhoCarta1(who);
+                break;
+            case 1:
+                agent.getGameState().setCarta2(carta);
+                agent.getGameState().setWhoCarta2(who);
+                break;
+            case 2:
+                agent.getGameState().setCarta3(carta);
+                agent.getGameState().setWhoCarta3(who);
+                break;
+            case 3:
+                agent.getGameState().setCarta4(carta);
+                agent.getGameState().setWhoCarta4(who);
+                break;
+            case 4:
+                agent.getGameState().setCarta5(carta);
+                agent.getGameState().setWhoCarta5(who);
+                break;
+            case 5:
+                agent.getGameState().setCarta6(carta);
+                agent.getGameState().setWhoCarta6(who);
                 break;
         }
     }

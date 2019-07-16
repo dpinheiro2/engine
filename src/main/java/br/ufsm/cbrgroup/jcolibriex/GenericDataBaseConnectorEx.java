@@ -1,6 +1,5 @@
 package br.ufsm.cbrgroup.jcolibriex;
 
-
 import br.ufsm.cbrgroup.hibernate.HibernateConfig;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseBaseFilter;
@@ -18,25 +17,22 @@ import javax.persistence.criteria.Root;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Universidade Federal de Santa Maria
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 19/04/2019.
+ * Criado em 01/07/2019.
  */
 
 
-public class GenericDataBaseConnector<D> implements Connector {
+public class GenericDataBaseConnectorEx<D> implements Connector {
 
     private Class<D> descriptionType;
 
-    public GenericDataBaseConnector() {
+    public GenericDataBaseConnectorEx() {
         Type t = getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) t;
         descriptionType = (Class<D>) pt.getActualTypeArguments()[0];
@@ -67,7 +63,7 @@ public class GenericDataBaseConnector<D> implements Connector {
 
         }
 
-        LogFactory.getLog(this.getClass()).info(cases.size() + " cases stored into the database.");
+        LogFactory.getLog(this.getClass()).info(descriptionType.getName() + ": " + cases.size() + " cases stored into the database.");
     }
 
     @Override
@@ -105,7 +101,7 @@ public class GenericDataBaseConnector<D> implements Connector {
             LogFactory.getLog(this.getClass()).error(var12);
         }
 
-        LogFactory.getLog(this.getClass()).info(cases.size() + " cases read from the database.");
+        LogFactory.getLog(this.getClass()).info(descriptionType.getName() + ": " + cases.size() + " cases read from the database.");
         return cases;
     }
 
@@ -113,4 +109,5 @@ public class GenericDataBaseConnector<D> implements Connector {
     public Collection<CBRCase> retrieveSomeCases(CaseBaseFilter filter) {
         return null;
     }
+
 }

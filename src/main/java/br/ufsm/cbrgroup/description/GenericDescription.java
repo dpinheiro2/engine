@@ -2,270 +2,99 @@ package br.ufsm.cbrgroup.description;
 
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Universidade Federal de Santa Maria
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 22/05/2019.
+ * Criado em 09/06/2019.
  */
 
-@Entity
-@Table(name="retain_all")
-public class RetainAllDescription extends GenericDescription implements CaseComponent, Serializable {
 
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
-    @Column(name = "idMao")
+public abstract class GenericDescription implements CaseComponent{
+
     private Integer idMao;
-
-    @Column(name = "idPartida", nullable = true)
     private String idPartida;
-
-    @Column(name = "jogadorMao", nullable = true)
     private Integer jogadorMao;
-
-    @Column(name = "cartaAltaRobo", nullable = true)
     private Integer cartaAltaRobo;
-
-    @Column(name = "cartaMediaRobo", nullable = true)
     private Integer cartaMediaRobo;
-
-    @Column(name = "cartaBaixaRobo", nullable = true)
     private Integer cartaBaixaRobo;
-
-    @Column(name = "cartaAltaHumano", nullable = true)
     private Integer cartaAltaHumano;
-
-    @Column(name = "cartaMediaHumano", nullable = true)
     private Integer cartaMediaHumano;
-
-    @Column(name = "cartaBaixaHumano", nullable = true)
     private Integer cartaBaixaHumano;
-
-    @Column(name = "primeiraCartaRobo", nullable = true)
     private Integer primeiraCartaRobo;
-
-    @Column(name = "primeiraCartaHumano", nullable = true)
     private Integer primeiraCartaHumano;
-
-    @Column(name = "segundaCartaRobo", nullable = true)
     private Integer segundaCartaRobo;
-
-    @Column(name = "segundaCartaHumano", nullable = true)
     private Integer segundaCartaHumano;
-
-    @Column(name = "terceiraCartaRobo", nullable = true)
     private Integer terceiraCartaRobo;
-
-    @Column(name = "terceiraCartaHumano", nullable = true)
     private Integer terceiraCartaHumano;
-
-    @Column(name = "ganhadorPrimeiraRodada", nullable = true)
     private Integer ganhadorPrimeiraRodada;
-
-    @Column(name = "ganhadorSegundaRodada", nullable = true)
     private Integer ganhadorSegundaRodada;
-
-    @Column(name = "ganhadorTerceiraRodada", nullable = true)
     private Integer ganhadorTerceiraRodada;
-
-    @Column(name = "roboCartaVirada", nullable = true)
     private Integer roboCartaVirada;
-
-    @Column(name = "humanoCartaVirada", nullable = true)
     private Integer humanoCartaVirada;
-
-    @Column(name = "quemPediuEnvido", nullable = true)
     private Integer quemPediuEnvido;
-
-    @Column(name = "quemPediuFaltaEnvido", nullable = true)
     private Integer quemPediuFaltaEnvido;
-
-    @Column(name = "quemPediuRealEnvido", nullable = true)
     private Integer quemPediuRealEnvido;
-
-    @Column(name = "pontosEnvidoRobo", nullable = true)
     private Integer pontosEnvidoRobo;
-
-    @Column(name = "pontosEnvidoHumano", nullable = true)
     private Integer pontosEnvidoHumano;
-
-    @Column(name = "quemNegouEnvido", nullable = true)
     private Integer quemNegouEnvido;
-
-    @Column(name = "quemGanhouEnvido", nullable = true)
     private Integer quemGanhouEnvido;
-
-    @Column(name = "tentosEnvido", nullable = true)
     private Integer tentosEnvido;
-
-    @Column(name = "quemFlor", nullable = true)
     private Integer quemFlor;
-
-    @Column(name = "quemContraFlor", nullable = true)
     private Integer quemContraFlor;
-
-    @Column(name = "quemContraFlorResto", nullable = true)
     private Integer quemContraFlorResto;
-
-    @Column(name = "quemNegouFlor", nullable = true)
     private Integer quemNegouFlor;
-
-    @Column(name = "pontosFlorRobo", nullable = true)
     private Integer pontosFlorRobo;
-
-    @Column(name = "pontosFlorHumano", nullable = true)
     private Integer pontosFlorHumano;
-
-    @Column(name = "quemGanhouFlor", nullable = true)
     private Integer quemGanhouFlor;
-
-    @Column(name = "tentosFlor", nullable = true)
     private Integer tentosFlor;
-
-    @Column(name = "quemEscondeuPontosEnvido", nullable = true)
     private Integer quemEscondeuPontosEnvido;
-
-    @Column(name = "quemEscondeuPontosFlor", nullable = true)
     private Integer quemEscondeuPontosFlor;
-
-    @Column(name = "quemTruco", nullable = true)
     private Integer quemTruco;
-
-    @Column(name = "quandoTruco", nullable = true)
     private Integer quandoTruco;
-
-    @Column(name = "quemRetruco", nullable = true)
     private Integer quemRetruco;
-
-    @Column(name = "quandoRetruco", nullable = true)
     private Integer quandoRetruco;
-
-    @Column(name = "quemValeQuatro", nullable = true)
     private Integer quemValeQuatro;
-
-    @Column(name = "quandoValeQuatro", nullable = true)
     private Integer quandoValeQuatro;
-
-    @Column(name = "quemNegouTruco", nullable = true)
     private Integer quemNegouTruco;
-
-    @Column(name = "quemGanhouTruco", nullable = true)
     private Integer quemGanhouTruco;
-
-    @Column(name = "tentosTruco", nullable = true)
     private Integer tentosTruco;
-
-    @Column(name = "tentosAnterioresRobo", nullable = true)
     private Integer tentosAnterioresRobo;
-
-    @Column(name = "tentosAnterioresHumano", nullable = true)
     private Integer tentosAnterioresHumano;
-
-    @Column(name = "tentosPosterioresRobo", nullable = true)
     private Integer tentosPosterioresRobo;
-
-    @Column(name = "tentosPosterioresHumano", nullable = true)
     private Integer tentosPosterioresHumano;
-
-    @Column(name = "roboMentiuEnvido", nullable = true)
     private Integer roboMentiuEnvido;
-
-    @Column(name = "humanoMentiuEnvido", nullable = true)
     private Integer humanoMentiuEnvido;
-
-    @Column(name = "roboMentiuFlor", nullable = true)
     private Integer roboMentiuFlor;
-
-    @Column(name = "humanoMentiuFlor", nullable = true)
     private Integer humanoMentiuFlor;
-
-    @Column(name = "roboMentiuTruco", nullable = true)
     private Integer roboMentiuTruco;
-
-    @Column(name = "humanoMentiuTruco", nullable = true)
     private Integer humanoMentiuTruco;
-
-    @Column(name = "quemBaralho", nullable = true)
     private Integer quemBaralho;
-
-    @Column(name = "quandoBaralho", nullable = true)
     private Integer quandoBaralho;
-
-    @Column(name = "quemContraFlorFalta", nullable = true)
     private Integer quemContraFlorFalta;
-
-    @Column(name = "quemEnvidoEnvido", nullable = true)
     private Integer quemEnvidoEnvido;
-
-    @Column(name = "quemFlorFlor", nullable = true)
     private Integer quemFlorFlor;
-
-    @Column(name = "quandoCartaVirada", nullable = true)
     private Integer quandoCartaVirada;
-
-    @Column(name = "naipeCartaAltaRobo", nullable = true)
     private String naipeCartaAltaRobo;
-
-    @Column(name = "naipeCartaMediaRobo", nullable = true)
     private String naipeCartaMediaRobo;
-
-    @Column(name = "naipeCartaBaixaRobo", nullable = true)
     private String naipeCartaBaixaRobo;
-
-    @Column(name = "naipeCartaAltaHumano", nullable = true)
     private String naipeCartaAltaHumano;
-
-    @Column(name = "naipeCartaMediaHumano", nullable = true)
     private String naipeCartaMediaHumano;
-
-    @Column(name = "naipeCartaBaixaHumano", nullable = true)
     private String naipeCartaBaixaHumano;
-
-    @Column(name = "naipePrimeiraCartaRobo", nullable = true)
     private String naipePrimeiraCartaRobo;
-
-    @Column(name = "naipePrimeiraCartaHumano", nullable = true)
     private String naipePrimeiraCartaHumano;
-
-    @Column(name = "naipeSegundaCartaRobo", nullable = true)
     private String naipeSegundaCartaRobo;
-
-    @Column(name = "naipeSegundaCartaHumano", nullable = true)
     private String naipeSegundaCartaHumano;
-
-    @Column(name = "naipeTerceiraCartaRobo", nullable = true)
     private String naipeTerceiraCartaRobo;
-
-    @Column(name = "naipeTerceiraCartaHumano", nullable = true)
     private String naipeTerceiraCartaHumano;
-
-    @Column(name = "hasDeception", nullable = true)
     private Integer hasDeception;
-
-    @Column(name = "roboMentiuRound1", nullable = true)
     private Integer roboMentiuRound1;
-
-    @Column(name = "humanoMentiuRound1", nullable = true)
     private Integer humanoMentiuRound1;
-
-    @Column(name = "roboMentiuRound2", nullable = true)
     private Integer roboMentiuRound2;
-
-    @Column(name = "humanoMentiuRound2", nullable = true)
     private Integer humanoMentiuRound2;
-
-    @Column(name = "roboMentiuRound3", nullable = true)
     private Integer roboMentiuRound3;
-
-    @Column(name = "humanoMentiuRound3", nullable = true)
     private Integer humanoMentiuRound3;
 
     public Integer getIdMao() {
@@ -924,8 +753,8 @@ public class RetainAllDescription extends GenericDescription implements CaseComp
         this.humanoMentiuRound3 = humanoMentiuRound3;
     }
 
-    @Override
     public Attribute getIdAttribute() {
         return new Attribute("idMao", this.getClass());
     }
+
 }

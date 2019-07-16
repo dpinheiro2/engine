@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufsm.cbrgroup.ui.ActiveEnvidoController">
+   <children>
+      <BorderPane layoutX="270.0" layoutY="163.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <AnchorPane prefHeight="560.0" prefWidth="375.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Accordion fx:id="accordion" layoutX="33.0" layoutY="36.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                    <panes>
+                      <TitledPane fx:id="tpGameState" animated="false" prefHeight="500.0" prefWidth="369.0" text="Game State">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <HBox layoutX="76.0" layoutY="42.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <GridPane hgap="5.0" vgap="5.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="143.0" text="Agent" />
+                                                <Label fx:id="lblAgentHand" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="88.0" text="Player Hand" GridPane.columnIndex="1" />
+                                                <Label text="Points:" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblAgentPoints" text="11" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label text="Envido Points:" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblAgentEnvidoPts" text="29" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label text="Played Cards:" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblAgentPlayedCards" text="3-O;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label text="Hand Cards:" GridPane.rowIndex="4" />
+                                                <Label fx:id="lblAgentHandCards" text="7-E; 2-E;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </GridPane>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: silver;" />
+                                          <GridPane hgap="5.0" vgap="5.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="143.0" text="Opponent" />
+                                                <Label fx:id="lblOpponentHand" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="88.0" text="Player Hand" GridPane.columnIndex="1" />
+                                                <Label text="Points:" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblOpponentPoints" text="19" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label text="Envido Points:" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblOpponentEnvidoPts" text="27" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label text="Played Cards:" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblOpponentPlayedCards" text="7-C;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </GridPane>
+                                       </children>
+                                    </HBox>
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane fx:id="tpBluffStats" animated="false" text="Bluff Stats">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox layoutX="93.0" layoutY="93.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TableView fx:id="tvAgentBluff" prefHeight="225.0" prefWidth="354.0">
+                                            <columns>
+                                              <TableColumn fx:id="triedBluffType" prefWidth="184.99995577335358" text="Tried Bluff Type" />
+                                              <TableColumn fx:id="agentSuccess" prefWidth="80.00000762939453" text="Success" />
+                                                <TableColumn fx:id="agentFailure" prefWidth="83.0" text="Failure" />
+                                            </columns>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                          <TableView fx:id="tvOpponentBluff" prefHeight="225.0" prefWidth="354.0">
+                                            <columns>
+                                              <TableColumn fx:id="detectedBluffType" prefWidth="189.9999634027481" text="Detected Bluff Type" />
+                                              <TableColumn fx:id="opponentSuccess" prefWidth="76.0" text="Success" />
+                                                <TableColumn fx:id="opponentFailure" prefWidth="82.0" text="Failure" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane fx:id="tpHandHistory" animated="false" text="Hand History">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TreeTableView fx:id="ttvHandHistory" layoutY="63.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TreeTableColumn fx:id="action" prefWidth="185.0" text="Action" />
+                                        <TreeTableColumn fx:id="player" prefWidth="185.0" text="Player" />
+                                      </columns>
+                                    </TreeTableView>
+                                 </children></AnchorPane>
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children>
+            </AnchorPane>
+         </left>
+         <top>
+            <Label text="Deception Envido Active Learning" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane layoutX="169.0" layoutY="164.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                     <bottom>
+                        <HBox prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                           </padding>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnCancel" mnemonicParsing="false" text="Cancel" />
+                              <Button fx:id="btnSave" mnemonicParsing="false" text="Save" />
+                           </children>
+                        </HBox>
+                     </bottom>
+                     <center>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <VBox layoutX="257.0" layoutY="83.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <BorderPane fx:id="bpRetrievedMove" prefHeight="275.0" prefWidth="683.0">
+                                       <top>
+                                          <Label text="Retrieved Move" BorderPane.alignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </top>
+                                       <center>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <HBox prefHeight="37.0" prefWidth="683.0">
+                                                   <children>
+                                                      <Label fx:id="lblRetrievedMove" text="Move: NO CALL Move Type: ENVIDO Move Detail: Null" HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets bottom="10.0" left="10.0" top="10.0" />
+                                                         </HBox.margin>
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox fx:id="hbIsBluff" prefHeight="45.0" prefWidth="683.0" spacing="10.0">
+                                                   <children>
+                                                      <CheckBox fx:id="cboxIsBluff" mnemonicParsing="false" text="Is move a bluff?">
+                                                         <HBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </HBox.margin>
+                                                      </CheckBox>
+                                                      <ComboBox fx:id="cbBluffType" prefHeight="25.0" prefWidth="501.0" HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </ComboBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox prefHeight="105.0" prefWidth="683.0" spacing="10.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <CheckBox fx:id="cboxConfirmMove" mnemonicParsing="false" text="Confirm Move?" />
+                                                   </children>
+                                                </HBox>
+                                                <BorderPane fx:id="bpMotiveRetrieved" prefHeight="220.0" prefWidth="683.0">
+                                                   <top>
+                                                      <Label text="Why Bluff?" BorderPane.alignment="CENTER">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </top>
+                                                   <center>
+                                                      <ListView fx:id="lvMotivateRetrieved" prefHeight="92.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+                                                         <BorderPane.margin>
+                                                            <Insets top="5.0" />
+                                                         </BorderPane.margin>
+                                                      </ListView>
+                                                   </center>
+                                                </BorderPane>
+                                             </children>
+                                          </VBox>
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane fx:id="bpRevisedMove" prefHeight="226.0" prefWidth="683.0" style="-fx-background-color: silver;">
+                                       <top>
+                                          <Label text="Revised Move" BorderPane.alignment="CENTER">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </top>
+                                       <center>
+                                          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <HBox fx:id="hbNewMove" prefHeight="43.0" prefWidth="683.0" spacing="10.0">
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                      <Label text="New Move:">
+                                                         <HBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <ComboBox fx:id="cbNewMove" prefHeight="25.0" prefWidth="551.0" HBox.hgrow="ALWAYS" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox prefHeight="45.0" prefWidth="683.0" spacing="10.0">
+                                                   <children>
+                                                      <CheckBox fx:id="cboxIsBluffRevised" mnemonicParsing="false" text="Is move a bluff?">
+                                                         <HBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </HBox.margin>
+                                                      </CheckBox>
+                                                      <ComboBox fx:id="cbBluffTypeRevised" prefHeight="25.0" prefWidth="506.0" HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </ComboBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <BorderPane fx:id="bpMotiveRevised" prefHeight="234.0" prefWidth="683.0" VBox.vgrow="ALWAYS">
+                                                   <top>
+                                                      <Label text="Why Bluff?" BorderPane.alignment="CENTER">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </top>
+                                                   <center>
+                                                      <ListView fx:id="lvMotivateRevised" prefHeight="75.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+                                                         <BorderPane.margin>
+                                                            <Insets top="5.0" />
+                                                         </BorderPane.margin>
+                                                      </ListView>
+                                                   </center>
+                                                </BorderPane>
+                                             </children>
+                                          </VBox>
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                  </BorderPane>
+               </children></AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

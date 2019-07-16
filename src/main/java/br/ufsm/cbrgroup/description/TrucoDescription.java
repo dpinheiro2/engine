@@ -18,9 +18,8 @@ import java.io.Serializable;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name="maos_mirror")
-public class TrucoDescription implements CaseComponent, Serializable {
+public class TrucoDescription extends GenericDescription implements CaseComponent, Serializable {
 
     @Id
     @GeneratedValue(generator="increment")

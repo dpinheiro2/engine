@@ -1,7 +1,6 @@
 package br.ufsm.cbrgroup.cbr.similarity;
 
 import br.ufsm.cbrgroup.description.GenericDescription;
-import br.ufsm.cbrgroup.description.TrucoDescription;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.global.Average;
@@ -13,12 +12,14 @@ import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Int
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 21/05/2019.
+ * Criado em 13/06/2019.
  */
 
+/** Nesta estratégia de similaridade foi usada a função equal() para todos os atributos, para forçar que o caso recuperado
+ *  seja o mais similar possível, e caso não alcance o threshold o active learning é lançado */
 
-public class SimilarityUnweighted implements SimilarityStrategy {
-    
+public class SimilarityActiveLearning implements SimilarityStrategy {
+
     @Override
     public NNConfig getSimConfigEnvido(GenericDescription gameStateQuery) {
         NNConfig simConfig = new NNConfig();
@@ -32,19 +33,19 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getPontosEnvidoRobo() != null) {
             Attribute pontosEnvidoRobo = new Attribute("pontosEnvidoRobo", gameStateQuery.getClass());
-            simConfig.addMapping(pontosEnvidoRobo, new Interval(33));
+            simConfig.addMapping(pontosEnvidoRobo, new Equal());
             simConfig.setWeight(pontosEnvidoRobo, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresRobo() != null) {
             Attribute tentosAnterioresRobo = new Attribute("tentosAnterioresRobo", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresRobo, new Interval(24));
+            simConfig.addMapping(tentosAnterioresRobo, new Equal());
             simConfig.setWeight(tentosAnterioresRobo, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresHumano() != null) {
             Attribute tentosAnterioresHumano = new Attribute("tentosAnterioresHumano", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresHumano, new Interval(24));
+            simConfig.addMapping(tentosAnterioresHumano, new Equal());
             simConfig.setWeight(tentosAnterioresHumano, 1.0);
         }
 
@@ -80,13 +81,13 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getPrimeiraCartaHumano() != null) {
             Attribute primeiraCartaHumano = new Attribute("primeiraCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(primeiraCartaHumano, new Interval(52));
+            simConfig.addMapping(primeiraCartaHumano, new Equal());
             simConfig.setWeight(primeiraCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getHumanoCartaVirada() != null) {
             Attribute humanoCartaVirada = new Attribute("humanoCartaVirada", gameStateQuery.getClass());
-            simConfig.addMapping(humanoCartaVirada, new Interval(3));
+            simConfig.addMapping(humanoCartaVirada, new Equal());
             simConfig.setWeight(humanoCartaVirada, 1.0);
         }
 
@@ -106,20 +107,20 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getPontosFlorRobo() != null) {
             Attribute pontosFlorRobo = new Attribute("pontosFlorRobo", gameStateQuery.getClass());
-            simConfig.addMapping(pontosFlorRobo, new Interval(33));
+            simConfig.addMapping(pontosFlorRobo, new Equal());
             simConfig.setWeight(pontosFlorRobo, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresRobo() != null) {
             Attribute tentosAnterioresRobo = new Attribute("tentosAnterioresRobo", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresRobo, new Interval(24));
+            simConfig.addMapping(tentosAnterioresRobo, new Equal());
             simConfig.setWeight(tentosAnterioresRobo, 1.0);
         }
 
 
         if (gameStateQuery.getTentosAnterioresHumano() != null) {
             Attribute tentosAnterioresHumano = new Attribute("tentosAnterioresHumano", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresHumano, new Interval(24));
+            simConfig.addMapping(tentosAnterioresHumano, new Equal());
             simConfig.setWeight(tentosAnterioresHumano, 1.0);
         }
 
@@ -175,32 +176,32 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getCartaAltaRobo() != null) {
             Attribute cartaAltaRobo = new Attribute("cartaAltaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaAltaRobo, new Interval(52));
+            simConfig.addMapping(cartaAltaRobo, new Equal());
             simConfig.setWeight(cartaAltaRobo, 1.0);
         }
 
         if (gameStateQuery.getCartaMediaRobo() != null) {
             Attribute cartaMediaRobo = new Attribute("cartaMediaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaMediaRobo, new Interval(52));
+            simConfig.addMapping(cartaMediaRobo, new Equal());
             simConfig.setWeight(cartaMediaRobo, 1.0);
         }
 
         if (gameStateQuery.getCartaBaixaRobo() != null) {
             Attribute cartaBaixaRobo = new Attribute("cartaBaixaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaBaixaRobo, new Interval(52));
+            simConfig.addMapping(cartaBaixaRobo, new Equal());
             simConfig.setWeight(cartaBaixaRobo, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresRobo() != null) {
             Attribute tentosAnterioresRobo = new Attribute("tentosAnterioresRobo", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresRobo, new Interval(24));
+            simConfig.addMapping(tentosAnterioresRobo, new Equal());
             simConfig.setWeight(tentosAnterioresRobo, 1.0);
         }
 
 
         if (gameStateQuery.getTentosAnterioresHumano() != null) {
             Attribute tentosAnterioresHumano = new Attribute("tentosAnterioresHumano", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresHumano, new Interval(24));
+            simConfig.addMapping(tentosAnterioresHumano, new Equal());
             simConfig.setWeight(tentosAnterioresHumano, 1.0);
         }
 
@@ -248,49 +249,49 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getPrimeiraCartaRobo() != null) {
             Attribute primeiraCartaRobo = new Attribute("primeiraCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(primeiraCartaRobo, new Interval(52));
+            simConfig.addMapping(primeiraCartaRobo, new Equal());
             simConfig.setWeight(primeiraCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getSegundaCartaRobo() != null) {
             Attribute segundaCartaRobo = new Attribute("segundaCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(segundaCartaRobo, new Interval(52));
+            simConfig.addMapping(segundaCartaRobo, new Equal());
             simConfig.setWeight(segundaCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getTerceiraCartaRobo() != null) {
             Attribute terceiraCartaRobo = new Attribute("terceiraCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(terceiraCartaRobo, new Interval(52));
+            simConfig.addMapping(terceiraCartaRobo, new Equal());
             simConfig.setWeight(terceiraCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getPrimeiraCartaHumano() != null) {
             Attribute primeiraCartaHumano = new Attribute("primeiraCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(primeiraCartaHumano, new Interval(52));
+            simConfig.addMapping(primeiraCartaHumano, new Equal());
             simConfig.setWeight(primeiraCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getSegundaCartaHumano() != null) {
             Attribute segundaCartaHumano = new Attribute("segundaCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(segundaCartaHumano, new Interval(52));
+            simConfig.addMapping(segundaCartaHumano, new Equal());
             simConfig.setWeight(segundaCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getTerceiraCartaHumano() != null) {
             Attribute terceiraCartaHumano = new Attribute("terceiraCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(terceiraCartaHumano, new Interval(52));
+            simConfig.addMapping(terceiraCartaHumano, new Equal());
             simConfig.setWeight(terceiraCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getRoboCartaVirada() != null) {
             Attribute roboCartaVirada = new Attribute("roboCartaVirada", gameStateQuery.getClass());
-            simConfig.addMapping(roboCartaVirada, new Interval(3));
+            simConfig.addMapping(roboCartaVirada, new Equal());
             simConfig.setWeight(roboCartaVirada, 1.0);
         }
 
         if (gameStateQuery.getHumanoCartaVirada() != null) {
             Attribute humanoCartaVirada = new Attribute("humanoCartaVirada", gameStateQuery.getClass());
-            simConfig.addMapping(humanoCartaVirada, new Interval(3));
+            simConfig.addMapping(humanoCartaVirada, new Equal());
             simConfig.setWeight(humanoCartaVirada, 1.0);
         }
 
@@ -310,79 +311,79 @@ public class SimilarityUnweighted implements SimilarityStrategy {
 
         if (gameStateQuery.getCartaAltaRobo() != null) {
             Attribute cartaAltaRobo = new Attribute("cartaAltaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaAltaRobo, new Interval(52));
+            simConfig.addMapping(cartaAltaRobo, new Equal());
             simConfig.setWeight(cartaAltaRobo, 1.0);
         }
 
         if (gameStateQuery.getCartaMediaRobo() != null) {
             Attribute cartaMediaRobo = new Attribute("cartaMediaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaMediaRobo, new Interval(52));
+            simConfig.addMapping(cartaMediaRobo, new Equal());
             simConfig.setWeight(cartaMediaRobo, 1.0);
         }
 
         if (gameStateQuery.getCartaBaixaRobo() != null) {
             Attribute cartaBaixaRobo = new Attribute("cartaBaixaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(cartaBaixaRobo, new Interval(52));
+            simConfig.addMapping(cartaBaixaRobo, new Equal());
             simConfig.setWeight(cartaBaixaRobo, 1.0);
         }
 
         if (gameStateQuery.getPrimeiraCartaRobo() != null) {
             Attribute primeiraCartaRobo = new Attribute("primeiraCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(primeiraCartaRobo, new Interval(52));
+            simConfig.addMapping(primeiraCartaRobo, new Equal());
             simConfig.setWeight(primeiraCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getSegundaCartaRobo() != null) {
             Attribute segundaCartaRobo = new Attribute("segundaCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(segundaCartaRobo, new Interval(52));
+            simConfig.addMapping(segundaCartaRobo, new Equal());
             simConfig.setWeight(segundaCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getTerceiraCartaRobo() != null) {
             Attribute terceiraCartaRobo = new Attribute("terceiraCartaRobo", gameStateQuery.getClass());
-            simConfig.addMapping(terceiraCartaRobo, new Interval(52));
+            simConfig.addMapping(terceiraCartaRobo, new Equal());
             simConfig.setWeight(terceiraCartaRobo, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresRobo() != null) {
             Attribute tentosAnterioresRobo = new Attribute("tentosAnterioresRobo", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresRobo, new Interval(24));
+            simConfig.addMapping(tentosAnterioresRobo, new Equal());
             simConfig.setWeight(tentosAnterioresRobo, 1.0);
         }
 
         if (gameStateQuery.getRoboCartaVirada() != null) {
             Attribute roboCartaVirada = new Attribute("roboCartaVirada", gameStateQuery.getClass());
-            simConfig.addMapping(roboCartaVirada, new Interval(3));
+            simConfig.addMapping(roboCartaVirada, new Equal());
             simConfig.setWeight(roboCartaVirada, 1.0);
         }
 
         if (gameStateQuery.getPrimeiraCartaHumano() != null) {
             Attribute primeiraCartaHumano = new Attribute("primeiraCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(primeiraCartaHumano, new Interval(52));
+            simConfig.addMapping(primeiraCartaHumano, new Equal());
             simConfig.setWeight(primeiraCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getSegundaCartaHumano() != null) {
             Attribute segundaCartaHumano = new Attribute("segundaCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(segundaCartaHumano, new Interval(52));
+            simConfig.addMapping(segundaCartaHumano, new Equal());
             simConfig.setWeight(segundaCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getTerceiraCartaHumano() != null) {
             Attribute terceiraCartaHumano = new Attribute("terceiraCartaHumano", gameStateQuery.getClass());
-            simConfig.addMapping(terceiraCartaHumano, new Interval(52));
+            simConfig.addMapping(terceiraCartaHumano, new Equal());
             simConfig.setWeight(terceiraCartaHumano, 1.0);
         }
 
         if (gameStateQuery.getTentosAnterioresHumano() != null) {
             Attribute tentosAnterioresHumano = new Attribute("tentosAnterioresHumano", gameStateQuery.getClass());
-            simConfig.addMapping(tentosAnterioresHumano, new Interval(24));
+            simConfig.addMapping(tentosAnterioresHumano, new Equal());
             simConfig.setWeight(tentosAnterioresHumano, 1.0);
         }
 
         if (gameStateQuery.getHumanoCartaVirada() != null) {
             Attribute humanoCartaVirada = new Attribute("humanoCartaVirada", gameStateQuery.getClass());
-            simConfig.addMapping(humanoCartaVirada, new Interval(3));
+            simConfig.addMapping(humanoCartaVirada, new Equal());
             simConfig.setWeight(humanoCartaVirada, 1.0);
         }
 

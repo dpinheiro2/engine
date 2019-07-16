@@ -1,5 +1,6 @@
 package br.ufsm.cbrgroup.cbr.similarity;
 
+import br.ufsm.cbrgroup.description.GenericDescription;
 import br.ufsm.cbrgroup.description.TrucoDescription;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
 
@@ -14,10 +15,10 @@ import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
 
 public interface SimilarityStrategy {
 
-    public NNConfig getSimConfigEnvido(TrucoDescription gameStateQuery);
-    public NNConfig getSimConfigFlor(TrucoDescription gameStateQuery);
-    public NNConfig getSimConfigTruco(TrucoDescription gameStateQuery);
-    public NNConfig getSimConfigPlayCard(TrucoDescription gameStateQuery);
-    public NNConfig getSimConfigShowPoints(TrucoDescription gameStateQuery);
+    public NNConfig getSimConfigEnvido(GenericDescription gameStateQuery);
+    public NNConfig getSimConfigFlor(GenericDescription gameStateQuery);
+    public NNConfig getSimConfigTruco(GenericDescription gameStateQuery);
+    public NNConfig getSimConfigPlayCard(GenericDescription gameStateQuery);
+    public NNConfig getSimConfigShowPoints(GenericDescription gameStateQuery);
 
 }

@@ -12,12 +12,12 @@ import java.io.Serializable;
  * Pós-Graduação em Ciência da Computação
  * Tópicos em Computação Aplicada
  * Daniel Pinheiro Vargas
- * Criado em 22/05/2019.
+ * Criado em 06/06/2019.
  */
 
 @Entity
-@Table(name="retain_all")
-public class RetainAllDescription extends GenericDescription implements CaseComponent, Serializable {
+@Table(name="retain_active")
+public class RetainActiveDescription extends GenericDescription implements CaseComponent, Serializable {
 
     @Id
     @GeneratedValue(generator="increment")

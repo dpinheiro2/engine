@@ -1,6 +1,7 @@
 package br.ufsm.cbrgroup.cbr.reuse;
 
-import br.ufsm.cbrgroup.description.TrucoDescription;
+import br.ufsm.cbrgroup.Agent;
+import br.ufsm.cbrgroup.description.GenericDescription;
 import br.ufsm.cbrgroup.game.GameState;
 import br.ufsm.cbrgroup.model.Card;
 import br.ufsm.cbrgroup.websocket.Message;
@@ -27,7 +28,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
     private static Logger logger = LogManager.getLogger(ReuseMostSimilar.class);
 
     @Override
-    public Message decisionMakingEnvido(CBRCaseBase caseBase, GameState gameState, TrucoDescription query, NNConfig simConfig) {
+    public Message decisionMakingEnvido(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn) {
         Message message = null;
 
         Collection<RetrievalResult> retrievedCases = null;
@@ -44,14 +45,14 @@ public class ReuseMostSimilar implements ReuseStrategy {
 
         if (retrievedCase != null) {
             // if (retrievedCase.getEval())
-            message = reasoningEnvido(gameState, (TrucoDescription) retrievedCase.get_case().getDescription());
+            message = reasoningEnvido(gameState, (GenericDescription) retrievedCase.get_case().getDescription());
         }
 
         return message;
     }
 
     @Override
-    public Message decisionMakingFlor(CBRCaseBase caseBase, GameState gameState, TrucoDescription query, NNConfig simConfig) {
+    public Message decisionMakingFlor(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn) {
         Message message = null;
 
         Collection<RetrievalResult> retrievedCases = null;
@@ -67,14 +68,15 @@ public class ReuseMostSimilar implements ReuseStrategy {
         }
 
         if (retrievedCase != null) {
-            message = reasoningFlor(gameState, (TrucoDescription) retrievedCase.get_case().getDescription());
+            message = reasoningFlor(gameState, (GenericDescription) retrievedCase.get_case().getDescription());
         }
 
         return message;
     }
 
     @Override
-    public Message decisionMakingTruco(CBRCaseBase caseBase, GameState gameState, TrucoDescription query, NNConfig simConfig, boolean isTurn) {
+    public Message decisionMakingTruco(CBRCaseBase caseBase, GameState gameState, GenericDescription query,
+                                       NNConfig simConfig, boolean isTurn) {
         Message message = null;
 
         Collection<RetrievalResult> retrievedCases = null;
@@ -90,14 +92,21 @@ public class ReuseMostSimilar implements ReuseStrategy {
         }
 
         if (retrievedCase != null) {
-            message = reasoningTruco(gameState, (TrucoDescription) retrievedCase.get_case().getDescription(), isTurn);
+           /* if ((retrievedCase.getEval() < 0.97 && agent.getLearningStrategy() != null) &&
+                    (gameState.getStateDecisionTurn() == StateDecisionTurn.PLAY_CARD_5 ||
+                            gameState.getStateDecisionTurn() == StateDecisionTurn.PLAY_CARD_6) ) {
+                message = agent.createAlert(isTurn);
+            } else {*/
+                message = reasoningTruco(gameState, (GenericDescription) retrievedCase.get_case().getDescription(), isTurn);
+            /*}*/
+
         }
 
         return message;
     }
 
     @Override
-    public Message decisionMakingPlayCard(CBRCaseBase caseBase, GameState gameState, TrucoDescription query, NNConfig simConfig) {
+    public Message decisionMakingPlayCard(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn) {
         Message message = null;
 
         Collection<RetrievalResult> retrievedCases = null;
@@ -113,18 +122,18 @@ public class ReuseMostSimilar implements ReuseStrategy {
         }
 
         if (retrievedCase != null) {
-            message = reasoningPlayCard(gameState, (TrucoDescription) retrievedCase.get_case().getDescription());
+            message = reasoningPlayCard(gameState, (GenericDescription) retrievedCase.get_case().getDescription());
         }
 
         return message;
     }
 
     @Override
-    public Message decisionMakingShowPoints(CBRCaseBase caseBase, GameState gameState, TrucoDescription query, NNConfig simConfig) {
+    public Message decisionMakingShowPoints(CBRCaseBase caseBase, GameState gameState, GenericDescription query, NNConfig simConfig, boolean isTurn) {
         return null;
     }
 
-    public Message reasoningEnvido(GameState gameState, TrucoDescription retrievedCase) {
+    public Message reasoningEnvido(GameState gameState, GenericDescription retrievedCase) {
 
         Message message = new Message();
 
@@ -135,16 +144,16 @@ public class ReuseMostSimilar implements ReuseStrategy {
         boolean isCallFaltaEnvido = false;
 
         isCallEnvido = retrievedCase.getQuemPediuEnvido() != null && retrievedCase.getQuemPediuEnvido() == 1 &&
-                retrievedCase.getQuemGanhouEnvido() == 1;
+                retrievedCase.getQuemGanhouEnvido()  != null && retrievedCase.getQuemGanhouEnvido() == 1;
 
         isCallEnvidoEnvido = retrievedCase.getQuemEnvidoEnvido() != null && retrievedCase.getQuemEnvidoEnvido() == 1 &&
-                retrievedCase.getQuemGanhouEnvido() == 1;
+                retrievedCase.getQuemGanhouEnvido()  != null && retrievedCase.getQuemGanhouEnvido() == 1;
 
         isCallRealEnvido = retrievedCase.getQuemPediuRealEnvido() != null && retrievedCase.getQuemPediuRealEnvido() == 1 &&
-                retrievedCase.getQuemGanhouEnvido() == 1;
+                retrievedCase.getQuemGanhouEnvido()  != null && retrievedCase.getQuemGanhouEnvido() == 1;
 
         isCallFaltaEnvido = retrievedCase.getQuemPediuFaltaEnvido() != null && retrievedCase.getQuemPediuFaltaEnvido() == 1 &&
-                retrievedCase.getQuemGanhouEnvido() == 1;
+                retrievedCase.getQuemGanhouEnvido()  != null && retrievedCase.getQuemGanhouEnvido() == 1;
 
         isNoCallEnvido = (retrievedCase.getQuemGanhouEnvido() == null || retrievedCase.getQuemGanhouEnvido() != 1) ||
                 (!isCallEnvido && !isCallRealEnvido && !isCallFaltaEnvido);
@@ -235,19 +244,19 @@ public class ReuseMostSimilar implements ReuseStrategy {
         return message;
     }
 
-    public Message reasoningFlor(GameState gameState, TrucoDescription retrievedCase) {
+    public Message reasoningFlor(GameState gameState, GenericDescription retrievedCase) {
 
         Message message = new Message();
 
         switch (gameState.getStateDecisionToken()) {
             //0: NADA 2: FLOR_FLOR; 3: CONTRA_FLOR;
             case FLOR:
-                if (retrievedCase.getQuemFlorFlor() != null && retrievedCase.getQuemFlorFlor() == 1) {
-                    message.setAction("FLOR");
-                    message.setInfo("2");
-                } else if (retrievedCase.getQuemContraFlor() != null && retrievedCase.getQuemContraFlor() == 1) {
+               if (retrievedCase.getQuemContraFlor() != null && retrievedCase.getQuemContraFlor() == 1) {
                     message.setAction("FLOR");
                     message.setInfo("3");
+                } else {
+                    message.setAction("FLOR");
+                    message.setInfo("2");
                 }
                 break;
             //0: NÃO ACEITAR 1: ACEITAR; 3: CONTRA_FLOR;
@@ -307,7 +316,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
         return message;
     }
 
-    public Message reasoningTruco(GameState gameState, TrucoDescription retrievedCase, boolean isTurn) {
+    public Message reasoningTruco(GameState gameState, GenericDescription retrievedCase, boolean isTurn) {
         Message message = new Message();
 
         if (!gameState.isTruco()) {
@@ -383,6 +392,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
                         message.setAction("QUERO");
                         message.setInfo("2");
                     }
+                    break;
             }
 
         }
@@ -390,7 +400,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
         return message;
     }
 
-    public Message reasoningPlayCard(GameState gameState, TrucoDescription retrievedCase) {
+    public Message reasoningPlayCard(GameState gameState, GenericDescription retrievedCase) {
 
         Message message = new Message();
 
@@ -469,8 +479,8 @@ public class ReuseMostSimilar implements ReuseStrategy {
         return message;
 
     }
-
-    /** dentre as cartas que tem na mão tentar jogar preferencialmente a mais baixa */
+/*
+    *//** dentre as cartas que tem na mão tentar jogar preferencialmente a mais baixa *//*
     private Card getPreferCartaBaixa(GameState gameState) {
 
         Card card;
@@ -487,7 +497,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
 
     }
 
-    /** dentre as cartas que tem na mão tentar jogar preferencialmente a media */
+    *//** dentre as cartas que tem na mão tentar jogar preferencialmente a media *//*
     private Card getPreferCartaMedia(GameState gameState) {
 
         Card card;
@@ -504,7 +514,7 @@ public class ReuseMostSimilar implements ReuseStrategy {
 
     }
 
-    /** dentre as cartas que tem na mão tentar jogar preferencialmente a mais alta */
+    *//** dentre as cartas que tem na mão tentar jogar preferencialmente a mais alta *//*
     private Card getPreferCartaAlta(GameState gameState) {
 
         Card card;
@@ -519,5 +529,5 @@ public class ReuseMostSimilar implements ReuseStrategy {
 
         return card;
 
-    }
+    }*/
 }

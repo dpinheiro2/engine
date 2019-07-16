@@ -1,14 +1,19 @@
 package br.ufsm.cbrgroup.game;
 
+import br.ufsm.cbrgroup.description.Carta;
+import br.ufsm.cbrgroup.enums.Face;
 import br.ufsm.cbrgroup.enums.StateDecisionToken;
 import br.ufsm.cbrgroup.enums.StateDecisionTurn;
 import br.ufsm.cbrgroup.enums.Suit;
 import br.ufsm.cbrgroup.model.Card;
 
+import javax.websocket.Session;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Universidade Federal de Santa Maria
@@ -21,48 +26,33 @@ import java.util.LinkedList;
 
 public class GameState implements Serializable {
 
-   /* private static GameState _instance = null;
+    LinkedList<Action> envidoHistory;
+    LinkedList<Action> trucoHistory;
+    LinkedList<Action> florHistory;
+    LinkedList<Action> cardHistory;
 
-    public static GameState getInstance()
-    {
-        if(_instance == null)
-            _instance = new GameState();
-        return _instance;
-    }*/
+    private Carta carta1;
+    private Carta carta2;
+    private Carta carta3;
+    private Carta carta4;
+    private Carta carta5;
+    private Carta carta6;
 
-    private String jogada;
-    private String typeJogada;
-    private String detailJogada;
+    private Integer whoCarta1;
+    private Integer whoCarta2;
+    private Integer whoCarta3;
+    private Integer whoCarta4;
+    private Integer whoCarta5;
+    private Integer whoCarta6;
 
-    public String getJogada() {
-        return jogada;
-    }
-
-    public void setJogada(String jogada) {
-        this.jogada = jogada;
-    }
-
-    public String getTypeJogada() {
-        return typeJogada;
-    }
-
-    public void setTypeJogada(String typeJogada) {
-        this.typeJogada = typeJogada;
-    }
-
-    public String getDetailJogada() {
-        return detailJogada;
-    }
-
-    public void setDetailJogada(String detailJogada) {
-        this.detailJogada = detailJogada;
-    }
+    private Integer tentosEnvido;
+    private Integer tentosFlor;
 
     private StateDecisionTurn stateDecisionTurn;
     private StateDecisionToken stateDecisionToken;
 
     private ArrayList<Card> agentCards;
-    private ArrayList<Card> agentHandCards;
+    //private ArrayList<Card> agentHandCards;
     private LinkedList<Card> agentPlayedCards;
     private LinkedList<Card> opponentPlayedCards;
     private LinkedList<Card> dealtCards;
@@ -118,6 +108,26 @@ public class GameState implements Serializable {
     private int numberGames = 1;
     private int countGames = 0;
 
+    private String idPartida;
+
+    private int triedEnvidoBluffs = 0;
+    private int envidoBluffCanBeDetected = 0;
+    private int envidoBluffSuccessful = 0;
+
+    private int triedFlorBluffs = 0;
+    private int florBluffCanBeDetected = 0;
+    private int florBluffSuccessful = 0;
+
+    private int triedTrucoBluffs = 0;
+    private int trucoBluffCanBeDetected = 0;
+    private int trucoBluffSuccessful = 0;
+
+    private int triedCardBluffs = 0;
+    private int cardBluffCanBeDetected = 0;
+    private int cardBluffSuccessful = 0;
+
+    private int bluffCanBeDetected = 0;
+
 
     public StateDecisionTurn getStateDecisionTurn() {
         return stateDecisionTurn;
@@ -143,14 +153,14 @@ public class GameState implements Serializable {
         this.agentCards = agentCards;
     }
 
-    public ArrayList<Card> getAgentHandCards() {
+    /*public ArrayList<Card> getAgentHandCards() {
         return agentHandCards;
     }
 
     public void setAgentHandCards(ArrayList<Card> agentHandCards) {
         this.agentHandCards = agentHandCards;
     }
-
+*/
     public LinkedList<Card> getAgentPlayedCards() {
         return agentPlayedCards;
     }
@@ -487,17 +497,275 @@ public class GameState implements Serializable {
         this.rounds = rounds;
     }
 
+    public String getIdPartida() {
+        return idPartida;
+    }
+
+    public void setIdPartida(String idPartida) {
+        this.idPartida = idPartida;
+    }
+
+    public LinkedList<Action> getEnvidoHistory() {
+        return envidoHistory;
+    }
+
+    public void setEnvidoHistory(LinkedList<Action> envidoHistory) {
+        this.envidoHistory = envidoHistory;
+    }
+
+    public LinkedList<Action> getTrucoHistory() {
+        return trucoHistory;
+    }
+
+    public void setTrucoHistory(LinkedList<Action> trucoHistory) {
+        this.trucoHistory = trucoHistory;
+    }
+
+    public LinkedList<Action> getFlorHistory() {
+        return florHistory;
+    }
+
+    public void setFlorHistory(LinkedList<Action> florHistory) {
+        this.florHistory = florHistory;
+    }
+
+    public LinkedList<Action> getCardHistory() {
+        return cardHistory;
+    }
+
+    public void setCardHistory(LinkedList<Action> cardHistory) {
+        this.cardHistory = cardHistory;
+    }
+
+    public Carta getCarta1() {
+        return carta1;
+    }
+
+    public void setCarta1(Carta carta1) {
+        this.carta1 = carta1;
+    }
+
+    public Carta getCarta2() {
+        return carta2;
+    }
+
+    public void setCarta2(Carta carta2) {
+        this.carta2 = carta2;
+    }
+
+    public Carta getCarta3() {
+        return carta3;
+    }
+
+    public void setCarta3(Carta carta3) {
+        this.carta3 = carta3;
+    }
+
+    public Carta getCarta4() {
+        return carta4;
+    }
+
+    public void setCarta4(Carta carta4) {
+        this.carta4 = carta4;
+    }
+
+    public Carta getCarta5() {
+        return carta5;
+    }
+
+    public void setCarta5(Carta carta5) {
+        this.carta5 = carta5;
+    }
+
+    public Carta getCarta6() {
+        return carta6;
+    }
+
+    public void setCarta6(Carta carta6) {
+        this.carta6 = carta6;
+    }
+
+    public Integer getWhoCarta1() {
+        return whoCarta1;
+    }
+
+    public void setWhoCarta1(Integer whoCarta1) {
+        this.whoCarta1 = whoCarta1;
+    }
+
+    public Integer getWhoCarta2() {
+        return whoCarta2;
+    }
+
+    public void setWhoCarta2(Integer whoCarta2) {
+        this.whoCarta2 = whoCarta2;
+    }
+
+    public Integer getWhoCarta3() {
+        return whoCarta3;
+    }
+
+    public void setWhoCarta3(Integer whoCarta3) {
+        this.whoCarta3 = whoCarta3;
+    }
+
+    public Integer getWhoCarta4() {
+        return whoCarta4;
+    }
+
+    public void setWhoCarta4(Integer whoCarta4) {
+        this.whoCarta4 = whoCarta4;
+    }
+
+    public Integer getWhoCarta5() {
+        return whoCarta5;
+    }
+
+    public void setWhoCarta5(Integer whoCarta5) {
+        this.whoCarta5 = whoCarta5;
+    }
+
+    public Integer getWhoCarta6() {
+        return whoCarta6;
+    }
+
+    public void setWhoCarta6(Integer whoCarta6) {
+        this.whoCarta6 = whoCarta6;
+    }
+
+    public Integer getTentosEnvido() {
+        return tentosEnvido;
+    }
+
+    public void setTentosEnvido(Integer tentosEnvido) {
+        this.tentosEnvido = tentosEnvido;
+    }
+
+    public Integer getTentosFlor() {
+        return tentosFlor;
+    }
+
+    public void setTentosFlor(Integer tentosFlor) {
+        this.tentosFlor = tentosFlor;
+    }
+
+    public int getTriedEnvidoBluffs() {
+        return triedEnvidoBluffs;
+    }
+
+    public void setTriedEnvidoBluffs(int triedEnvidoBluffs) {
+        this.triedEnvidoBluffs = triedEnvidoBluffs;
+    }
+
+    public int getEnvidoBluffCanBeDetected() {
+        return envidoBluffCanBeDetected;
+    }
+
+    public void setEnvidoBluffCanBeDetected(int envidoBluffCanBeDetected) {
+        this.envidoBluffCanBeDetected = envidoBluffCanBeDetected;
+    }
+
+    public int getEnvidoBluffSuccessful() {
+        return envidoBluffSuccessful;
+    }
+
+    public void setEnvidoBluffSuccessful(int envidoBluffSuccessful) {
+        this.envidoBluffSuccessful = envidoBluffSuccessful;
+    }
+
+    public int getTriedFlorBluffs() {
+        return triedFlorBluffs;
+    }
+
+    public void setTriedFlorBluffs(int triedFlorBluffs) {
+        this.triedFlorBluffs = triedFlorBluffs;
+    }
+
+    public int getFlorBluffCanBeDetected() {
+        return florBluffCanBeDetected;
+    }
+
+    public void setFlorBluffCanBeDetected(int florBluffCanBeDetected) {
+        this.florBluffCanBeDetected = florBluffCanBeDetected;
+    }
+
+    public int getFlorBluffSuccessful() {
+        return florBluffSuccessful;
+    }
+
+    public void setFlorBluffSuccessful(int florBluffSuccessful) {
+        this.florBluffSuccessful = florBluffSuccessful;
+    }
+
+    public int getTriedTrucoBluffs() {
+        return triedTrucoBluffs;
+    }
+
+    public void setTriedTrucoBluffs(int triedTrucoBluffs) {
+        this.triedTrucoBluffs = triedTrucoBluffs;
+    }
+
+    public int getTrucoBluffCanBeDetected() {
+        return trucoBluffCanBeDetected;
+    }
+
+    public void setTrucoBluffCanBeDetected(int trucoBluffCanBeDetected) {
+        this.trucoBluffCanBeDetected = trucoBluffCanBeDetected;
+    }
+
+    public int getTrucoBluffSuccessful() {
+        return trucoBluffSuccessful;
+    }
+
+    public void setTrucoBluffSuccessful(int trucoBluffSuccessful) {
+        this.trucoBluffSuccessful = trucoBluffSuccessful;
+    }
+
+    public int getTriedCardBluffs() {
+        return triedCardBluffs;
+    }
+
+    public void setTriedCardBluffs(int triedCardBluffs) {
+        this.triedCardBluffs = triedCardBluffs;
+    }
+
+    public int getCardBluffCanBeDetected() {
+        return cardBluffCanBeDetected;
+    }
+
+    public void setCardBluffCanBeDetected(int cardBluffCanBeDetected) {
+        this.cardBluffCanBeDetected = cardBluffCanBeDetected;
+    }
+
+    public int getCardBluffSuccessful() {
+        return cardBluffSuccessful;
+    }
+
+    public void setCardBluffSuccessful(int cardBluffSuccessful) {
+        this.cardBluffSuccessful = cardBluffSuccessful;
+    }
+
+    public int getBluffCanBeDetected() {
+        return bluffCanBeDetected;
+    }
+
+    public void setBluffCanBeDetected(int bluffCanBeDetected) {
+        this.bluffCanBeDetected = bluffCanBeDetected;
+    }
+
     public void initHand() {
 
         agentCards = new ArrayList<>();
-        agentHandCards = new ArrayList<>();
+        //agentHandCards = new ArrayList<>();
         agentPlayedCards = new LinkedList<>();
         opponentPlayedCards = new LinkedList<>();
         dealtCards = new LinkedList<>();
         rounds = new LinkedList<>();
 
-        agentPoints = 0;
-        opponentPoints = 0;
+        envidoHistory = new LinkedList<>();
+        trucoHistory = new LinkedList<>();
+        florHistory = new LinkedList<>();
+        cardHistory = new LinkedList<>();
 
         envidoPoints = 0;
         opponentEnvidoPoints = 0;
@@ -544,6 +812,26 @@ public class GameState implements Serializable {
         round2 = null;
         round3 = null;
 
+        idPartida = null;
+
+        triedEnvidoBluffs = 0;
+        envidoBluffCanBeDetected = 0;
+        envidoBluffSuccessful = 0;
+
+        triedFlorBluffs = 0;
+        florBluffCanBeDetected = 0;
+        florBluffSuccessful = 0;
+
+        triedTrucoBluffs = 0;
+        trucoBluffCanBeDetected = 0;
+        trucoBluffSuccessful = 0;
+
+        triedCardBluffs = 0;
+        cardBluffCanBeDetected = 0;
+        cardBluffSuccessful = 0;
+
+        bluffCanBeDetected = 0;
+
     }
 
     public boolean isPlayedCard(LinkedList<Card> list, Card card) {
@@ -561,10 +849,12 @@ public class GameState implements Serializable {
         HashMap<Suit, ArrayList<Card>> cardsBySuit = new HashMap<>();
 
         cards.forEach(card -> {
-            if (!cardsBySuit.containsKey(card.getSuit())) {
-                cardsBySuit.put(card.getSuit(), new ArrayList<>());
+            if (card != null) {
+                if (!cardsBySuit.containsKey(card.getSuit())) {
+                    cardsBySuit.put(card.getSuit(), new ArrayList<>());
+                }
+                cardsBySuit.get(card.getSuit()).add(card);
             }
-            cardsBySuit.get(card.getSuit()).add(card);
         });
 
         int modeLength = 0;
@@ -767,4 +1057,202 @@ public class GameState implements Serializable {
         }
         return isHandFinish;
     }
+
+    public Card getLastCardHand() {
+
+        Card card;
+
+        if (!isPlayedCard(getAgentPlayedCards(), getAgentCards().get(0))) {
+            card =  getAgentCards().get(0);
+        } else if (!isPlayedCard(getAgentPlayedCards(), getAgentCards().get(1))) {
+            card = getAgentCards().get(1);
+        } else {
+            card = getAgentCards().get(2);
+        }
+
+        return card;
+
+    }
+
+    public ArrayList<Card> getHandCards() {
+
+        ArrayList<Card> handCards = new ArrayList<>();
+
+        if (!isPlayedCard(getAgentPlayedCards(), getAgentCards().get(0))) {
+            handCards.add(getAgentCards().get(0));
+        }
+
+        if (!isPlayedCard(getAgentPlayedCards(), getAgentCards().get(1))) {
+            handCards.add(getAgentCards().get(1));
+        }
+
+        if (!isPlayedCard(getAgentPlayedCards(), getAgentCards().get(2))) {
+            handCards.add(getAgentCards().get(2));
+        }
+
+        return handCards;
+
+    }
+
+
+    public boolean isFinishGame() {
+        return agentPoints >= 24 || opponentPoints >= 24;
+    }
+
+    public boolean isEnvidoPossible(int cbrCode, int pontos) {
+
+        boolean isPossible = false;
+
+        if (pontos == 33) {
+            if (cbrCode == 4 || cbrCode == 42 || cbrCode == 40 || cbrCode == 3)
+                isPossible = true;
+        } else if (pontos == 32) {
+            if (cbrCode == 2 || cbrCode == 4 || cbrCode == 42 || cbrCode == 40)
+                isPossible = true;
+        } else if (pontos == 31) {
+            if (cbrCode == 1 || cbrCode == 4 || cbrCode == 42 || cbrCode == 40 || cbrCode == 2 || cbrCode == 3)
+                isPossible = true;
+        } else if (pontos == 30) {
+            if (cbrCode == 24 || cbrCode == 4 || cbrCode == 42 || cbrCode == 40 || cbrCode == 1 || cbrCode == 3)
+                isPossible = true;
+        } else if (pontos == 29) {
+            if (cbrCode == 16 || cbrCode == 4 || cbrCode == 42 || cbrCode == 40 || cbrCode == 24 || cbrCode == 3 ||
+                    cbrCode == 1 || cbrCode == 2 )
+                isPossible = true;
+        } else if (pontos == 28) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 4 || cbrCode == 42 || cbrCode == 40 ||
+                    cbrCode == 16 || cbrCode == 3 || cbrCode == 24 || cbrCode == 2 )
+                isPossible = true;
+        } else if (pontos == 27) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 ||
+                    cbrCode == 16 || cbrCode == 24 || cbrCode == 1 || cbrCode == 2 || cbrCode == 3 || cbrCode == 4 ||
+                    cbrCode == 42 || cbrCode == 40)
+                isPossible = true;
+        } else if (pontos == 26) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 ||
+                    cbrCode == 16 || cbrCode == 1 || cbrCode == 2 || cbrCode == 3)
+                isPossible = true;
+        } else if (pontos == 25) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 ||
+                    cbrCode == 16 || cbrCode == 24 || cbrCode == 1 || cbrCode == 2)
+                isPossible = true;
+        } else if (pontos == 24) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 ||
+                    cbrCode == 24 || cbrCode == 1)
+                isPossible = true;
+        } else if (pontos == 23) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 ||
+                    cbrCode == 16 || cbrCode == 24)
+                isPossible = true;
+        } else if (pontos == 22) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8 || cbrCode == 16)
+                isPossible = true;
+        } else if (pontos == 21) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50 || cbrCode == 6 || cbrCode == 7 || cbrCode == 8)
+                isPossible = true;
+        } else if (pontos == 20) {
+            if (cbrCode == 6 || cbrCode == 7 || cbrCode == 8)
+                isPossible = true;
+        } else if (pontos == 7) {
+            if (cbrCode == 4 || cbrCode == 42 || cbrCode == 40)
+                isPossible = true;
+        } else if (pontos == 6) {
+            if (cbrCode == 3)
+                isPossible = true;
+        } else if (pontos == 5) {
+            if (cbrCode == 2)
+                isPossible = true;
+        } else if (pontos == 4) {
+            if (cbrCode == 1)
+                isPossible = true;
+        } else if (pontos == 3) {
+            if (cbrCode == 24)
+                isPossible = true;
+        } else if (pontos == 2) {
+            if (cbrCode == 16)
+                isPossible = true;
+        } else if (pontos == 1) {
+            if (cbrCode == 12 || cbrCode == 52 || cbrCode == 50)
+                isPossible = true;
+        }
+
+        return isPossible;
+    }
+
+    public String getStringAgentPlayedCards() {
+        String cards = "";
+        if (agentPlayedCards.size() > 0) {
+            for (Card card : agentPlayedCards) {
+                cards += card.getFace().name() + "-" + card.getSuit().name().substring(0,1) + "; ";
+            }
+        }
+        return cards;
+    }
+
+    public String getStringHandCards() {
+
+        String handCards = "";
+
+        if (getHandCards().size() > 0) {
+            for (Card card : getHandCards()) {
+                handCards += getFaceAbrev(card.getFace()) + "-" + card.getSuit().name().substring(0,1) + "; ";
+            }
+        }
+
+        return handCards;
+    }
+
+    public String getStringOpponentPlayedCards() {
+        String cards = "";
+        if (opponentPlayedCards.size() > 0) {
+            for (Card card : opponentPlayedCards) {
+                if (card != null) {
+                    cards += getFaceAbrev(card.getFace()) + "-" + card.getSuit().name().substring(0,1) + "; ";
+                } else {
+                    cards += "Face Down Card;";
+                }
+
+            }
+        }
+        return cards;
+    }
+
+    public String getFaceAbrev(Face face) {
+        String abrev = "";
+        switch (face) {
+            case AS:
+                abrev = "1";
+                break;
+            case DOIS:
+                abrev = "2";
+                break;
+            case TRES:
+                abrev = "3";
+                break;
+            case QUATRO:
+                abrev = "4";
+                break;
+            case CINCO:
+                abrev = "5";
+                break;
+            case SEIS:
+                abrev = "6";
+                break;
+            case SETE:
+                abrev = "7";
+                break;
+            case DEZ:
+                abrev = "10";
+                break;
+            case VALETE:
+                abrev = "11";
+                break;
+            case REI:
+                abrev = "12";
+                break;
+        }
+
+        return abrev;
+    }
+
 }

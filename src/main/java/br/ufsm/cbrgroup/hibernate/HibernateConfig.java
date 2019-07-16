@@ -2,8 +2,7 @@ package br.ufsm.cbrgroup.hibernate;
 
 
 
-import br.ufsm.cbrgroup.description.RetainAllDescription;
-import br.ufsm.cbrgroup.description.TrucoDescription;
+import br.ufsm.cbrgroup.description.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -50,6 +49,12 @@ public class HibernateConfig {
         cfg.addPackage("cbrgroup.description");
         cfg.addAnnotatedClass(TrucoDescription.class);
         cfg.addAnnotatedClass(RetainAllDescription.class);
+        cfg.addAnnotatedClass(RetainActiveDescription.class);
+        cfg.addAnnotatedClass(Carta.class);
+        cfg.addAnnotatedClass(Envido.class);
+        cfg.addAnnotatedClass(Flor.class);
+        cfg.addAnnotatedClass(Truco.class);
+        cfg.addAnnotatedClass(PlayCard.class);
 
         cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         cfg.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/dbMestrado");

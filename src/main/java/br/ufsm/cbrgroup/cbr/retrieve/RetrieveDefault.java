@@ -1,7 +1,11 @@
 package br.ufsm.cbrgroup.cbr.retrieve;
 
+import br.ufsm.cbrgroup.description.GenericDescription;
 import br.ufsm.cbrgroup.description.TrucoDescription;
 import br.ufsm.cbrgroup.game.GameState;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Universidade Federal de Santa Maria
@@ -14,10 +18,12 @@ import br.ufsm.cbrgroup.game.GameState;
 
 public class RetrieveDefault implements RetrieveStrategy {
 
-    @Override
-    public TrucoDescription getQueryEnvido(GameState gameState) {
 
-        TrucoDescription query = new TrucoDescription();
+
+    @Override
+    public GenericDescription getQueryEnvido(GameState gameState, GenericDescription query) {
+
+        //GenericDescription query = new GenericDescription();
 
         query.setJogadorMao(gameState.isHand() ? 1 : 2);
         query.setPontosEnvidoRobo(gameState.getEnvidoPoints());
@@ -58,9 +64,7 @@ public class RetrieveDefault implements RetrieveStrategy {
     }
 
     @Override
-    public TrucoDescription getQueryFlor(GameState gameState) {
-
-        TrucoDescription query = new TrucoDescription();
+    public GenericDescription getQueryFlor(GameState gameState, GenericDescription query) {
 
         query.setJogadorMao(gameState.isHand() ? 1 : 2);
         query.setPontosFlorRobo(gameState.getEnvidoPoints());
@@ -93,12 +97,10 @@ public class RetrieveDefault implements RetrieveStrategy {
     }
 
     @Override
-    public TrucoDescription getQueryTruco(GameState gameState) {
-
-        TrucoDescription query = new TrucoDescription();
+    public GenericDescription getQueryTruco(GameState gameState, GenericDescription query) {
 
         query.setJogadorMao(gameState.isHand() ? 1 : 2);
-        query.setQuandoTruco(gameState.getCurrentRound());
+        //query.setQuandoTruco(gameState.getCurrentRound());
         query.setTentosAnterioresRobo(gameState.getAgentPoints());
         query.setTentosAnterioresHumano(gameState.getOpponentPoints());
         query.setCartaAltaRobo(gameState.getAgentCards().get(2).getCbrCode());
@@ -264,8 +266,7 @@ public class RetrieveDefault implements RetrieveStrategy {
     }
 
     @Override
-    public TrucoDescription getQueryPlayCard(GameState gameState) {
-        TrucoDescription query = new TrucoDescription();
+    public GenericDescription getQueryPlayCard(GameState gameState, GenericDescription query) {
 
         query.setJogadorMao(gameState.isHand() ? 1 : 2);
         query.setCartaAltaRobo(gameState.getAgentCards().get(2).getCbrCode());
@@ -414,9 +415,7 @@ public class RetrieveDefault implements RetrieveStrategy {
     }
 
     @Override
-    public TrucoDescription getQueryShowPoints(GameState gameState) {
-
-        TrucoDescription query = new TrucoDescription();
+    public GenericDescription getQueryShowPoints(GameState gameState, GenericDescription query) {
 
         query.setJogadorMao(gameState.isHand() ? 1 : 2);
         query.setPontosEnvidoRobo(gameState.getEnvidoPoints());
